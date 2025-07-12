@@ -4,7 +4,7 @@
   "main": "src/index.ts",
   "compatibility_date": "2025-07-12",
   "vars": {
-    "BETTER_AUTH_URL": "http://localhost:8787"
+    "BETTER_AUTH_URL": "http://localhost:8787",
   },
   // Use 'wrangler secret put' for sensitive values like:
   // wrangler secret put DATABASE_URL

@@ -1,0 +1,3 @@
+# Only format src directory, ignore everything else
+*
+!src/
