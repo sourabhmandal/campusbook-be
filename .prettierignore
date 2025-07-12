@@ -1,3 +1,6 @@
-# Only format src directory, ignore everything else
+# Ignore everything by default
 *
+
+# Only format src directory
 !src/
+!src/**/*

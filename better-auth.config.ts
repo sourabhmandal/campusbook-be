@@ -7,7 +7,7 @@ import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { betterAuth } from 'better-auth';
-import { betterAuthOptions } from '@/src/lib/better-auth/options';
+import { betterAuthOptions } from './src/lib/better-auth/options';
 import { config } from 'dotenv';
 import { join } from 'path';
 

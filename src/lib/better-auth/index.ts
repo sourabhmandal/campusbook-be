@@ -7,7 +7,9 @@ import { betterAuthOptions } from './options';
 /**
  * Better Auth Instance
  */
-export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => {
+export const auth = (
+  env: CloudflareBindings
+): ReturnType<typeof betterAuth> => {
   const sql = neon(env.DATABASE_URL);
   const db = drizzle(sql);
 
