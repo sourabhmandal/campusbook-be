@@ -2,13 +2,16 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "campusbook-be",
   "main": "src/index.ts",
-  "compatibility_date": "2025-07-12"
+  "compatibility_date": "2025-07-12",
+  "vars": {
+    "BETTER_AUTH_URL": "http://localhost:8787"
+  },
+  // Use 'wrangler secret put' for sensitive values like:
+  // wrangler secret put DATABASE_URL
+  // wrangler secret put BETTER_AUTH_SECRET
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",

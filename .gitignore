@@ -15,9 +15,8 @@ dist/
 node_modules/
 .wrangler
 
-# env
-.env
-.env.production
+# env (Cloudflare Workers specific)
+.dev.vars
 .dev.vars
 
 # logs
