@@ -14,7 +14,31 @@ export const betterAuthOptions: BetterAuthOptions = {
    * Base path for Better Auth.
    * @default "/api/auth"
    */
-  basePath: '/api',
+  basePath: '/api/auth',
 
-  // .... More options
+  /**
+   * Email and password authentication configuration
+   */
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: false, // Set to true in production
+    autoSignIn: true,
+  },
+
+  /**
+   * Session configuration
+   */
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // 1 day
+  },
+
+  /**
+   * User configuration
+   */
+  user: {
+    additionalFields: {
+      // Add any additional fields you want to store
+    },
+  },
 };

@@ -18,6 +18,7 @@ node_modules/
 # env (Cloudflare Workers specific)
 .dev.vars
 .dev.vars
+.env
 
 # logs
 logs/

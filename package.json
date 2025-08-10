@@ -1,5 +1,8 @@
 {
   "name": "campusbook-be",
+  "engines": {
+    "node": ">=23.0.0"
+  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
@@ -12,12 +15,20 @@
   },
   "dependencies": {
     "@hono-rate-limiter/cloudflare": "^0.2.2",
+    "@hono/zod-validator": "^0.7.2",
     "@neondatabase/serverless": "^1.0.1",
+    "@orpc/contract": "^1.7.11",
+    "@orpc/openapi": "^1.7.11",
+    "@orpc/server": "^1.7.11",
     "better-auth": "^1.2.12",
     "dotenv": "^17.2.0",
     "drizzle-orm": "^0.44.2",
+    "drizzle-zod": "^0.8.3",
     "hono": "^4.8.4",
-    "hono-rate-limiter": "^0.4.2"
+    "hono-rate-limiter": "^0.4.2",
+    "nanoid": "^5.1.5",
+    "swagger-ui-dist": "^5.27.1",
+    "zod": "^4.0.16"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.36.0",

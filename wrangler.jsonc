@@ -10,12 +10,6 @@
   "observability": {
     "enabled": true
   },
-  "kv_namespaces": [
-    {
-      "binding": "RATE_LIMITER_KV",
-      "id": "fdc66c3f58ea43caae5dbaa3569e9f29",
-    }
-  ],
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
