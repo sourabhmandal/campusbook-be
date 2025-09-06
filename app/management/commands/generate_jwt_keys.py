@@ -17,8 +17,8 @@ class Command(BaseCommand):
         parser.add_argument(
             '--output-dir',
             type=str,
-            default='keys/localhost',
-            help='Output directory for key files (default: keys/localhost)'
+            default='keys',
+            help='Output directory for key files (default: keys)'
         )
         parser.add_argument(
             '--print-env',
@@ -97,7 +97,7 @@ class Command(BaseCommand):
         # Add to .gitignore if not already present
         gitignore_path = '.gitignore'
         gitignore_entries = [
-            'keys/localhost/',
+            'keys/',
             'keys/',
             '*.pem',
             '.env'

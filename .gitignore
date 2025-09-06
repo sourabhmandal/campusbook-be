@@ -2,6 +2,8 @@
 keys/
 *.pem
 .env
+.env.production
+.env.local
 
 # JWT Keys and Environment
 keys/localhost/
@@ -11,3 +13,5 @@ __pycache__/
 *.pyd
 .Python
 .DS_Store
+venv/
+*.sqlite3

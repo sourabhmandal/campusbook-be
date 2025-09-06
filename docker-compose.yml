@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=dev-secret-key-change-in-production
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
+      - DJANGO_SETTINGS_MODULE=campusbook.settings
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///db.sqlite3}
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - logs_volume:/app/logs
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py generate_jwt_keys &&
+             gunicorn --bind 0.0.0.0:8000 --workers 3 --reload campusbook.wsgi:application"
+
+volumes:
+  static_volume:
+  media_volume:
+  logs_volume:
