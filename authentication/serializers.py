@@ -3,7 +3,8 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from .models import User, LoginAttempt
+from users.models import User
+from .models import LoginAttempt
 import logging
 
 logger = logging.getLogger(__name__)
