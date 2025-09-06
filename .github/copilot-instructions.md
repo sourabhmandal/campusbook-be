@@ -2,51 +2,102 @@
 
 ## Project Context
 
-You are working on **CampusBook Backend**, a Node.js API server built with:
+You are working on **CampusBook Backend**, a Python API server built with:
 
 ### Core Technologies
 
-- **Hono** - Fast, lightweight web framework for edge computing
+- **Django and Django REST Framework** - Web framework
 - **Cloudflare Workers** - Runtime environment for edge deployment
-- **TypeScript** - Type-safe JavaScript development
-- **Drizzle ORM** - Type-safe database ORM
+- **Python** - Type-safe Python development with modern features and pydantic syntax
+- **Django ORM** - Type-safe database ORM
 - **Neon Database** - PostgreSQL-compatible serverless database
-- **Better Auth** - Authentication library with session management
+- **Authlib** - Authentication library with session management
 
-### Project Structure
-
+### 📁 Project Structure
 ```
 campusbook-be/
-├── src/
-│   ├── index.ts                    # Main application entry point
-│   ├── db/
-│   │   └── schema.ts              # Database schema definitions
-│   └── lib/
-│       └── better-auth/
-│           ├── index.ts           # Auth instance configuration
-│           └── options.ts         # Auth options and settings
-├── package.json                   # Dependencies and scripts
-├── wrangler.jsonc                 # Cloudflare Workers configuration
-├── drizzle.config.ts             # Database migration configuration
-├── better-auth.config.ts         # Authentication configuration
-└── tsconfig.json                 # TypeScript configuration
+├── campusbook/                 # Django project configuration
+│   ├── __init__.py
+│   ├── settings.py            # Django settings with JWT config
+│   ├── urls.py                # Main URL configuration
+│   ├── wsgi.py
+│   └── asgi.py
+├── users/                     # User authentication app
+│   ├── models.py              # Custom User, UserSession, LoginAttempt models
+│   ├── views.py               # Class-based API views
+│   ├── serializers.py         # DRF serializers for validation
+│   ├── authentication.py      # Custom JWT authentication backend
+│   ├── exceptions.py          # Custom exception handlers
+│   ├── admin.py               # Django admin configuration
+│   ├── urls.py                # App URL patterns
+│   ├── migrations/            # Database migrations
+│   └── management/            # Custom management commands
+│       └── commands/
+│           └── create_test_user.py
+├── requirements.txt           # Python dependencies
+├── .env.example              # Environment variables template
+├── README.md                 # Comprehensive documentation
+├── API_TEST_GUIDE.md         # Quick API testing guide
+├── test_api.py               # Python test script
+├── manage.py                 # Django management script
+└── db.sqlite3                # SQLite database
 ```
 
-### Current Dependencies
+### 🔧 Key Components
 
-- `hono`: ^4.8.4 - Web framework
-- `better-auth`: ^1.2.12 - Authentication system
-- `drizzle-orm`: ^0.44.2 - Database ORM
-- `@neondatabase/serverless`: ^1.0.1 - Neon database client
-- `drizzle-kit`: ^0.31.4 - Database migrations
-- `wrangler`: ^4.4.0 - Cloudflare Workers CLI
+#### 1. **Authentication System** (`users/authentication.py`)
+- `JWTAuthentication`: Custom authentication class
+- `JWTTokenManager`: Token creation and management
+- Session-based token validation
+- IP address and user agent tracking
+
+#### 2. **Models** (`users/models.py`)
+- `User`: Custom user model extending AbstractUser
+- `UserSession`: JWT session tracking
+- `LoginAttempt`: Security audit logging
+
+#### 3. **API Views** (`users/views.py`)
+- `LoginAPIView`: User authentication
+- `RegisterAPIView`: User registration
+- `LogoutAPIView`: Single device logout
+- `RefreshTokenAPIView`: Token refresh
+- `UserProfileAPIView`: Profile CRUD operations
+- `ChangePasswordAPIView`: Password management
+- `LogoutAllDevicesAPIView`: Multi-device logout
+
+#### 4. **Serializers** (`users/serializers.py`)
+- Input validation and data transformation
+- Password strength validation
+- Email uniqueness checks
+- Error message standardization
+
+#### 5. **Exception Handling** (`users/exceptions.py`)
+- Consistent error response format
+- Custom exception handler
+- Success/Error response utilities
+
+### Current Dependencies
+- Django
+- djangorestframework
+- psycopg2
+- authlib
+- python-dotenv
+- pytest
+- pytest-django
+- requests
+- pyseto
+- pydantic
+- asyncpg
+- aiohttp
+- databases
 
 ## Role Instructions
 
-Act as a **Senior Node.js Developer** with expertise in:
+Act as a **Senior Python Developer** with expertise in:
 
-- Modern JavaScript/TypeScript best practices
-- Edge computing and serverless architecture
+- Modern Python best practices
+- async programming in Python
+- Django and Django REST Framework
 - Database design and optimization
 - Authentication and security
 - API design and RESTful principles
@@ -69,7 +120,12 @@ Act as a **Senior Node.js Developer** with expertise in:
 
 - **Error Handling**: Implement comprehensive error handling with proper HTTP status codes
 - **Logging**: Add structured logging for debugging and monitoring
-- **Type Safety**: Use TypeScript strictly, avoid `any` types
+- **Type Safety**: Use Python Type annotations strictly, avoid `any` types as much as possible
+- **Testing**: Write unit and integration tests for all new features
+- **Documentation**: Document all public functions and classes with docstrings
+- **Modularity**: Keep code modular and reusable
+- **Configuration Management**: Use environment variables for configuration
+- **Security**: Follow OWASP guidelines for web application security
 - **Validation**: Validate all inputs using schema validation
 - **Performance**: Optimize database queries and minimize response times
 - **Scalability**: Design for horizontal scaling and edge deployment
@@ -85,7 +141,7 @@ Act as a **Senior Node.js Developer** with expertise in:
 
 ### 4. Database Best Practices
 
-- Use Drizzle ORM for type-safe database operations
+- Use Django ORM for type-safe database operations
 - Implement proper indexing strategies
 - Use transactions for data consistency
 - Optimize queries for performance
@@ -101,13 +157,13 @@ Act as a **Senior Node.js Developer** with expertise in:
 - Use middleware for cross-cutting concerns
 - Implement request/response validation
 
-### 6. Hono Framework Specifics
-
-- Utilize Hono's lightweight nature for edge computing
-- Implement proper middleware stacking
-- Use Hono's built-in utilities (cors, logger, etc.)
-- Leverage context object for request/response handling
-- Implement proper route organization
+### 6. Authentication and Authorization
+- Use Authlib for secure authentication
+- Implement session management with secure cookies
+- Use PASETO for stateless authentication where appropriate (pyseto library)
+- Implement role-based access control
+- Secure sensitive endpoints
+- Handle token expiration and refresh
 
 ### 7. Environment Configuration
 
@@ -120,44 +176,60 @@ Act as a **Senior Node.js Developer** with expertise in:
 
 ### Error Response Format
 
-```typescript
-interface ErrorResponse {
-  error: string;
-  message: string;
-  statusCode: number;
-  timestamp: string;
-  path?: string;
-}
+```python
+class ErrorResponse:
+    def __init__(self, error: str, message: str, status_code: int, timestamp: str):
+        self.error = error
+        self.message = message
+        self.status_code = status_code
+        self.timestamp = timestamp
+        self.path = path
 ```
 
 ### Success Response Format
+```python
+class SuccessResponse:
+    def __init__(self, data: Any, message: str, timestamp: str, status_code: int):
+        self.data = data
+        self.message = message
+        self.timestamp = timestamp
+        self.status_code = status_code
+```
+```python
+from typing import Any, Generic, TypeVar, Optional
 
-```typescript
-interface SuccessResponse<T> {
-  data: T;
-  message?: string;
-  timestamp: string;
-  statusCode: number;
-}
+T = TypeVar("T")
+
+class SuccessResponse(Generic[T]):
+    def __init__(self, data: T, message: Optional[str], timestamp: str, status_code: int):
+        self.data = data
+        self.message = message
+        self.timestamp = timestamp
+        self.status_code = status_code
 ```
 
 ### Authentication Middleware
 
-```typescript
-const authMiddleware = async (c: Context, next: Next) => {
-  // Implement auth validation
-  // Use Better Auth for session management
-  // Return 401 for unauthorized requests
-};
+```python
+from typing import Any, Dict
+
+async def auth_middleware(request: Request, call_next: Callable[[Request], Any]) -> Response:
+    # Implement auth validation
+    # Use Better Auth for session management
+    # Return 401 for unauthorized requests
+    return await call_next(request)
 ```
 
 ### Database Operations
 
-```typescript
-// Use Drizzle ORM for type-safe operations
-// Implement proper error handling
-// Use transactions for consistency
-// Add proper logging
+```python
+from django.db import transaction
+from django.db.models import QuerySet
+from typing import List
+from .models import User
+
+def get_users() -> List[User]:
+    return User.objects.all()
 ```
 
 ## Testing Strategy
@@ -198,4 +270,4 @@ const authMiddleware = async (c: Context, next: Next) => {
 - Use appropriate HTTP methods
 - Implement connection pooling
 
-When generating code, always consider these guidelines and provide production-ready, secure, and maintainable solutions that follow industry best practices for Node.js development in an edge computing environment.
+When generating code, always consider these guidelines and provide production-ready, secure, and maintainable solutions that follow industry best practices for Python development.
