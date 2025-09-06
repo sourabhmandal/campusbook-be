@@ -5,3 +5,9 @@ keys/
 
 # JWT Keys and Environment
 keys/localhost/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.DS_Store
