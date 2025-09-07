@@ -1,221 +1,23 @@
-# CampusBook Authentication API
+# CampusBook
 
-A Django REST Framework implementation with class-based views for JWT authentication using Authlib concepts.
+This repository is Backend of LMS and is free and open-source. The purpose of this project is to learn various scalability techniques during building Django backend.
+
+Eventhough you are free to use this project as LMS. This project is not intended for any commercial use.
+Hence Long Term Support of this repository is questionable
 
 ## Features
 
-- **Class-based API Views**: Using Django REST Framework's APIView
+- **Class-based API Views**: Using Django REST Framework's APIView, model.Viewset
 - **JWT Authentication**: Custom JWT implementation with access and refresh tokens using RSA256 encryption
 - **User Session Management**: Track user sessions and token validity
 - **Security Features**: Login attempt tracking, password validation, IP logging
 - **Custom User Model**: Extended user model with additional fields
 - **Comprehensive Error Handling**: Consistent error response format
 
-## API Endpoints
-
-### Authentication Endpoints
-
-#### 1. User Registration
-**POST** `/users/auth/register/`
-
-Request Body:
-```json
-{
-    "email": "user@example.com",
-    "username": "username",
-    "password": "strongpassword",
-    "password_confirm": "strongpassword", 
-    "first_name": "John",
-    "last_name": "Doe",
-    "phone_number": "+1234567890"
-}
-```
-
-Response (201):
-```json
-{
-    "data": {
-        "user": {
-            "id": "uuid",
-            "email": "user@example.com",
-            "username": "username",
-            "first_name": "John",
-            "last_name": "Doe",
-            "full_name": "John Doe",
-            "phone_number": "+1234567890",
-            "is_email_verified": false,
-            "is_profile_complete": true,
-            "created_at": "2025-01-06T...",
-            "last_login": null
-        },
-        "tokens": {
-            "access_token": "eyJ...",
-            "refresh_token": "eyJ...",
-            "access_token_expires_at": "2025-01-06T...",
-            "refresh_token_expires_at": "2025-01-13T...",
-            "token_type": "Bearer",
-            "session_id": "uuid"
-        }
-    },
-    "message": "Registration successful",
-    "status_code": 201,
-    "timestamp": "2025-01-06T..."
-}
-```
-
-#### 2. User Login
-**POST** `/users/auth/login/`
-
-Request Body:
-```json
-{
-    "email": "user@example.com",
-    "password": "strongpassword",
-    "remember_me": false
-}
-```
-
-Response (200): Same format as registration
-
-#### 3. Token Refresh
-**POST** `/users/auth/refresh/`
-
-Request Body:
-```json
-{
-    "refresh_token": "eyJ..."
-}
-```
-
-Response (200):
-```json
-{
-    "data": {
-        "access_token": "eyJ...",
-        "access_token_expires_at": "2025-01-06T...",
-        "token_type": "Bearer"
-    },
-    "message": "Token refreshed successfully",
-    "status_code": 200,
-    "timestamp": "2025-01-06T..."
-}
-```
-
-#### 4. User Logout
-**POST** `/users/auth/logout/`
-
-Request Body:
-```json
-{
-    "refresh_token": "eyJ..."
-}
-```
-
-Response (200):
-```json
-{
-    "message": "Logout successful",
-    "status_code": 200,
-    "timestamp": "2025-01-06T..."
-}
-```
-
-#### 5. Logout from All Devices
-**POST** `/users/auth/logout-all/`
-
-Headers: `Authorization: Bearer <access_token>`
-
-Response (200):
-```json
-{
-    "data": {
-        "revoked_sessions": 3
-    },
-    "message": "Logged out from all devices successfully",
-    "status_code": 200,
-    "timestamp": "2025-01-06T..."
-}
-```
-
-### User Profile Endpoints
-
-#### 6. Get User Profile
-**GET** `/users/profile/`
-
-Headers: `Authorization: Bearer <access_token>`
-
-Response (200):
-```json
-{
-    "data": {
-        "id": "uuid",
-        "email": "user@example.com",
-        "username": "username",
-        "first_name": "John",
-        "last_name": "Doe",
-        "full_name": "John Doe",
-        "phone_number": "+1234567890",
-        "is_email_verified": false,
-        "is_profile_complete": true,
-        "created_at": "2025-01-06T...",
-        "last_login": "2025-01-06T..."
-    },
-    "message": "Profile retrieved successfully",
-    "status_code": 200,
-    "timestamp": "2025-01-06T..."
-}
-```
-
-#### 7. Update User Profile
-**PUT** `/users/profile/`
-
-Headers: `Authorization: Bearer <access_token>`
-
-Request Body:
-```json
-{
-    "first_name": "John",
-    "last_name": "Doe",
-    "phone_number": "+1234567890"
-}
-```
-
-Response (200): Same format as GET profile
-
-#### 8. Change Password
-**POST** `/users/profile/change-password/`
-
-Headers: `Authorization: Bearer <access_token>`
-
-Request Body:
-```json
-{
-    "current_password": "oldpassword",
-    "new_password": "newpassword",
-    "new_password_confirm": "newpassword"
-}
-```
-
-Response (200):
-```json
-{
-    "message": "Password changed successfully. Please login again.",
-    "status_code": 200,
-    "timestamp": "2025-01-06T..."
-}
-```
-
 ## Architecture
 
 ### Class-Based Views
-All API endpoints are implemented using Django REST Framework's `APIView` class:
-- `LoginAPIView`: Handles user authentication
-- `RegisterAPIView`: Handles user registration
-- `LogoutAPIView`: Handles user logout
-- `RefreshTokenAPIView`: Handles token refresh
-- `UserProfileAPIView`: Handles profile CRUD operations
-- `ChangePasswordAPIView`: Handles password changes
-- `LogoutAllDevicesAPIView`: Handles logout from all devices
+All API endpoints are implemented using Django REST Framework's `APIView` or `model.APIViewset` class:
 
 ### JWT Authentication
 Custom JWT authentication using PyJWT with the following features:
@@ -226,11 +28,6 @@ Custom JWT authentication using PyJWT with the following features:
 - Automatic token cleanup
 - IP address and user agent logging
 - 2048-bit RSA key pairs
-
-### Models
-1. **User**: Custom user model extending AbstractUser
-2. **UserSession**: Tracks JWT sessions and token validity
-3. **LoginAttempt**: Security logging for login attempts
 
 ### Security Features
 - Password validation using Django's built-in validators
@@ -378,6 +175,6 @@ This script tests all authentication endpoints and demonstrates proper API usage
 4. **Extensible**: Easy to extend with additional authentication features
 5. **Production Ready**: Includes logging, error handling, and security features
 
-## Generate OpenSSL Keys
+## Generate OpenSSL Keys Manually
 
 `openssl genrsa -out private.pem 2048 && openssl rsa -in private.pem -pubout -out public.pem`
